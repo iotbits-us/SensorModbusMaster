@@ -122,7 +122,7 @@ While modbus RTU specifications define the format of a data frame transfered ove
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
 
-For this example to work with the ESP32 with this Library and use Serial1  the following modification  are required on the ESP32 arduino Core. C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
+For  [this](https://github.com/luisgcu/SensorModbusMaster/tree/master/utils/SDM230-modbus) example to work with the ESP32 with this Library and use Serial1  the following modification  are required on the ESP32 arduino Core. C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
 **HardwareSerial.cpp** change the ports pins definition as follow:
 
 ```c
@@ -143,6 +143,8 @@ For this example to work with the ESP32 with this Library and use Serial1  the f
 ### ModbusBox  & pyModSlave.
 
 pyModSlave is a free python-based implementation of a ModBus slave application for simulation purposes. You can install the python module or use the precompiled (for Windows only) stand alone GUI (Qt based) utility (unzip and run). pyModSlave also includes a bus monitor for examining all traffic on the bus. You can also download it from pypi [Dowload page](https://sourceforge.net/projects/pymodslave/)
+
+[PymodSlave sample program](https://github.com/luisgcu/SensorModbusMaster/tree/master/utils/pyModbusDemo)
 
 **Hardware connections.**  
 
