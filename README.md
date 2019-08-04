@@ -140,6 +140,40 @@ For this example to work with the ESP32 with this Library and use Serial1  the f
 #endif
 ```
 
+### ModbusBox  & pyModSlave.
+
+pyModSlave is a free python-based implementation of a ModBus slave application for simulation purposes. You can install the python module or use the precompiled (for Windows only) stand alone GUI (Qt based) utility (unzip and run). pyModSlave also includes a bus monitor for examining all traffic on the bus. You can also download it from pypi [Dowload page](https://sourceforge.net/projects/pymodslave/)
+
+**Hardware connections.**  
+
+![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/pyModSlave.jpg)
+
+**pyModSlave setup.**
+
+![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/pyModserial.jpg)
+
+**pyModSlave holding registers set.**
+
+![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/pymod_hregs.jpg)
+
+**pyModSlave input registers set.**
+
+![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/pymod_AIreg.jpg)
+
+**Arduino Serial readings.**
+
+![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/Arduino_serial.jpg)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
