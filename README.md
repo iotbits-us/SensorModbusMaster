@@ -113,3 +113,36 @@ _____
 
 ## TTL and RS485/RS322
 While modbus RTU specifications define the format of a data frame transfered over a serial line, the type of serial signal is not defined.  Many modbus sensors communicate over [RS-485](https://en.wikipedia.org/wiki/RS-485).  To interface between RS485 and the TTL used by standard Arduino-type boards, you will need an RS485-to-TTL adapter. There are a number of RS485-to-TTL adapters available.  When shopping for one, be mindful of the logic level of the TTL output by the adapter.  The MAX485, one of the most popular adapters, has a 5V logic level in the TTL signal.  This will _fry_ any board that can only use on 3.3V logic.  You would need a voltage shifter in between the Mayfly and the MAX485 to make it work.  Also note that most RS485-to-TTL adapters are implemented _without_ automatic flow control.  That is, you must manually set voltages on driver enable and receiver enable pins to control the data flow direction.  While this library includes functions for setting the enables, I've found commutation to be much more stable on adapters with built-in flow control.  You will also need an interface board to communicate between an Arduino and any modbus sensor that communicates over [RS422](https://en.wikipedia.org/wiki/RS-422) or [RS232](https://en.wikipedia.org/wiki/RS-232).  Again, mind your voltages and the method of direction control.
+
+------
+
+### ESP32 &  SDM230-Modbus  Example .
+
+**Modbus Master Hardware specs:** [Modbus Box](https://github.com/iotbits-us/mbox-hardware-mk)
+
+**SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
+
+For this example to work with the ESP32 with this Library and use Serial1  the following modification  are required on the ESP32 arduino Core. C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
+**HardwareSerial.cpp** change the ports pins definition as follow:
+
+```c
+#ifndef RX1
+#define RX1 16 //Pin used by Modbus Box
+#endif
+#ifndef TX1
+#define TX1 17 // Pin used by Modbus Box
+#endif
+#ifndef RX2
+#define RX2 9
+#endif
+#ifndef TX2
+#define TX2 10
+#endif
+```
+
+
+
+
+
+
+
