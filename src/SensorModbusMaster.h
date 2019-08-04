@@ -6,6 +6,7 @@
 #define SensorModbusMaster_h
 
 #include <Arduino.h>
+//#include "HardwareSerial.h"
 
 //----------------------------------------------------------------------------
 //                        ENUMERATIONS FOR CONFIGURING DEVICE
@@ -21,8 +22,8 @@
 // The modbus protocol defines that there can be no more than 1.5 characters
 // of silence between characters in a frame and any space over 3.5 characters
 // defines a new frame.
-#define MODBUS_TIMEOUT 500
-#define MODBUS_FRAME_TIMEOUT 4
+#define MODBUS_TIMEOUT 250     //was 500
+#define MODBUS_FRAME_TIMEOUT 4    //was 4
 
 // The "endianness" of returned values
 typedef enum endianness
@@ -163,7 +164,7 @@ public:
     void pointerToFrame(uint16_t value, pointerType point, endianness endian, byte modbusFrame[], int start_index=0);
     void StringToFrame(String value, byte modbusFrame[], int start_index=0);
     void charToFrame(char inChar[], int charLength, byte modbusFrame[], int start_index=0);
-
+    
     // This gets data from either a holding or input register
     // For a holding register readCommand = 0x03
     // For an input register readCommand = 0x04
@@ -213,7 +214,7 @@ public:
     // For 8 parameters with 8 registers each:
     // 64 registers * 2 bytes per register + 5 frame bytes
     static byte responseBuffer[RESPONSE_BUFFER_SIZE];
-
+	bool isError = false;
 
 
 //----------------------------------------------------------------------------

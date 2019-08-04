@@ -496,7 +496,7 @@ bool modbusMaster::getRegisters(byte readCommand, int16_t startRegister, int16_t
         respSize = sendCommand(command, 8);
         tries++;
 
-        delay(25);
+        delay(25);  // was 25
     }
 
     if (respSize == (numRegisters*2 + 5))
@@ -595,19 +595,21 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
     emptySerialBuffer(_stream);  // Clear any junk before sending command
     _stream->write(command, commandLength);
     _stream->flush();
+	//Serial1.flush();   //may addd
     // Print the raw send (for debugging)
     _debugStream->print("Raw Request >>> ");
     printFrameHex(command, commandLength);
-
+     delay(2);  // call this delay before receive enable so the ESP32 works ok 
     // Listen for a response
     recieverEnable();
     uint32_t start = millis();
     while (_stream->available() == 0 && millis() - start < modbusTimeout)
-    { delay(1);}
+    { delay(1);}     //was 1
 
 
     if (_stream->available() > 0)
     {
+		isError = false;
         // Read the incoming bytes
         int bytesRead = _stream->readBytes(responseBuffer, 135);
         emptySerialBuffer(_stream);
@@ -657,6 +659,8 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
     else
     {
         _debugStream->println("No response received.");
+		//Serial.println("timeOut");               //added by me on 08/2018
+		isError = true;
         return 0;
     }
 }
@@ -674,7 +678,7 @@ void modbusMaster::driverEnable(void)
     {
         digitalWrite(_enablePin, HIGH);
         _debugStream->println("Driver/Master Enabled");
-        delay(8);
+        delay(5); // was 8
     }
 }
 
@@ -685,7 +689,7 @@ void modbusMaster::recieverEnable(void)
     {
         digitalWrite(_enablePin, LOW);
         _debugStream->println("Receiver/Slave Enabled");
-        delay(8);
+        delay(5); // was 8
     }
 }
 
@@ -695,7 +699,7 @@ void modbusMaster::emptySerialBuffer(Stream *stream)
     while (stream->available() > 0)
     {
         stream->read();
-        delay(1);
+        delay(1);  //was 1
     }
 }
 
@@ -801,4 +805,4 @@ leFrame modbusMaster::leFrameFromFrame(int varBytes,
     memcpy(fram.Byte, outFrame, varBytes);
     // Return the little-endian frame
     return fram;
-}
+} //
