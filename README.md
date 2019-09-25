@@ -105,7 +105,7 @@ While modbus RTU specifications define the format of a data frame transfered ove
 
 Following examples are to be used with our ModbusBox powered by ESP32 
 
-Here you can find **Modbus Master Hardware specs:** [Modbus Box](https://github.com/iotbits-us/mbox-hardware-mk)
+Here you can find Modbus Master Hardware specs: [Modbus Box](https://github.com/iotbits-us/mbox-hardware-mk)
 
 The following examples   use Serial1 on the ESP32 ,   the following modification  are required on the ESP32 arduino Core.  C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
 **HardwareSerial.cpp** change the ports pins definition as follow:
@@ -159,11 +159,9 @@ pyModSlave is a free python-based implementation of a ModBus slave application f
 
 The following test is composed by 3 VFD  from different  manufactures and one Energy meter, all the devices are connected in the same RS485 network , the ModbusBox act as Modbus Master it read a array of modbus register from each devices and print the result over the serial port. 
 
-**Code for the example:** LINK
+**Code for the example:** [LINK](https://github.com/iotbits-us/SensorModbusMaster/blob/master/utils/Modbus_Box_demo_multiple_slaves/Modbus_Box_demo_multiple_slaves.ino)
 
- **Proposed scheme for this test:**
-
-Links to the manual of the slaves in this test:
+**Links to the manual of the slaves in this test:**
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
 
