@@ -161,6 +161,10 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 **Code for the example:** [LINK](https://github.com/iotbits-us/SensorModbusMaster/blob/master/utils/Modbus_Box_demo_multiple_slaves/Modbus_Box_demo_multiple_slaves.ino)
 
+**Modbus Network scheme** 
+
+![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Modbus_network.jpg)
+
 **Links to the manual of the slaves in this test:**
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
@@ -171,7 +175,7 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 **Unidrive M200** : [LINK](https://acim.nidec.com/drives/control-techniques/-/media/controltechniques/files/step-by-step-guides/unidrive-m200-control-user-guide.ashx)
 
-![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Modbus_network.jpg)
+
 
 This is a test
 
