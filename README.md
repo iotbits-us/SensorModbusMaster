@@ -165,6 +165,8 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Modbus_network.jpg)
 
+Serial output: [](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/RegisterRead.jpg)
+
 **Links to the manual of the slaves in this test:**
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
