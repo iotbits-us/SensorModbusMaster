@@ -60,24 +60,6 @@ The following data types are supported:
     - Value must be in two adjacent 16-bit registers
     - bigEndian or littleEndian can be specified, bigEndian will be used by default
     - Only "fully" big or little endianness is supported - that is both high byte and high word first or both low byte and low word first.
-- TAI64 (64-bit timestamp)
-    - Value must be in four contiguous 16-bit registers
-    - Value is always fully big endian
-    - Supported as if it were a 32-bit unix timestamp because the first 16-bits of the TAI64 timestamp will be 0x40000000 until the year 2106.
-    - See https://www.tai64.com/ for more details on this format type
-- TAI64N (64-bit timestamp followed by a 16-bit nanosecond count)
-    - Value must be in six contiguous 16-bit registers
-    - Value is always fully big endian
-    - Note that the seconds and nanoseconds are broken into two different fields.
-    - See https://www.tai64.com/ for more details on this format type
-- TAI64NA (64-bit timestamp followed by a 16-bit nanosecond count and then a 16-bit attosecond count)
-    - Value must be in eight contiguous 16-bit registers
-    - Value is always fully big endian
-    - Note that the seconds, nanoseconds, and attoseconds are broken into three different fields.
-    - See https://www.tai64.com/ for more details on this format type
-- byte (8-bit unsigned integer or raw byte of data)
-    - Must specify either the first or second 8-bit component of a single 16-bit register)
-    - By default, the modbus command for pre-setting a single register will be used (0x06).  Set the forceMultiple boolean flag to 'true' to force the use of the modbus command for setting multiple resisters (0x10).
 - char (c++/ASCII style characters)
     - Characters can be in one or more contiguous 16-bit registers
     - Length of the character array must be specified
@@ -116,16 +98,16 @@ While modbus RTU specifications define the format of a data frame transfered ove
 
 ------
 
-### ESP32 &  SDM230-Modbus  Example .
+### ModbusBox .
 
-**Modbus Master Hardware specs:** [Modbus Box](https://github.com/iotbits-us/mbox-hardware-mk)
+Following examples are to be used with our ModbusBox powered by ESP32 
 
-**SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
+Here you can find **Modbus Master Hardware specs:** [Modbus Box](https://github.com/iotbits-us/mbox-hardware-mk)
 
-For  [this](https://github.com/luisgcu/SensorModbusMaster/tree/master/utils/SDM230-modbus) example to work with the ESP32 with this Library and use Serial1  the following modification  are required on the ESP32 arduino Core. C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
+The following examples   use Serial1 on the ESP32 ,   the following modification  are required on the ESP32 arduino Core.  C:\Users\yourusername\AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.2\cores\esp32
 **HardwareSerial.cpp** change the ports pins definition as follow:
 
-```c
+```
 #ifndef RX1
 #define RX1 16 //Pin used by Modbus Box
 #endif
@@ -139,6 +121,8 @@ For  [this](https://github.com/luisgcu/SensorModbusMaster/tree/master/utils/SDM2
 #define TX2 10
 #endif
 ```
+
+------
 
 ### ModbusBox  & pyModSlave.
 
@@ -166,7 +150,13 @@ pyModSlave is a free python-based implementation of a ModBus slave application f
 
 ![](https://github.com/luisgcu/SensorModbusMaster/blob/master/images/Arduino_serial.jpg)
 
+------
 
+### ModbusBox with several slaves ( Basic program).
+
+Bellow is the proposed scheme for this test. 
+
+**SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
 
 
 
