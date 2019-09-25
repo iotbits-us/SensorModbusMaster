@@ -175,9 +175,13 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 **Unidrive M200** : [LINK](https://acim.nidec.com/drives/control-techniques/-/media/controltechniques/files/step-by-step-guides/unidrive-m200-control-user-guide.ashx)
 
+------
+
+### ModbusBox  example with only one slave (SDM230).
+
+This is a test with only one slave.
 
 
-This is a test
 
 
 
