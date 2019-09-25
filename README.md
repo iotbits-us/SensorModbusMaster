@@ -165,7 +165,9 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Modbus_network.jpg)
 
-Serial output: ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/RegisterRead.jpg)
+**Serial output:**
+
+ ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/RegisterRead.jpg)
 
 **Links to the manual of the slaves in this test:**
 
