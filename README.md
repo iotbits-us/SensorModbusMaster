@@ -1,6 +1,9 @@
 # SensorModbusMaster
 
 This library is designed to use an Arduino as a modbus master to communicate with a sensor/slave via [modbus RTU](https://en.wikipedia.org/wiki/Modbus).  It's specifically written with lots of "higher-level" functions to help out users who are largely unfamiliar with the modbus protocol and want an easy way to get information from a modbus device.
+
+*Note: Do not forget to check the ModbusBox examples at the end of this page.* 
+
 _____
 
 ## Using the library
@@ -154,9 +157,21 @@ pyModSlave is a free python-based implementation of a ModBus slave application f
 
 ### ModbusBox with several slaves ( Basic program).
 
-Bellow is the proposed scheme for this test. 
+The following test is composed by 3 VFD  from different  manufactures and one Energy meter, all the devices are connected in the same RS485 network , the ModbusBox act as Modbus Master it read a array of modbus register from each devices and print the result over the serial port. 
+
+ **Proposed scheme for this test:**
+
+Links to the manual of the slaves in this test:
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
+
+**ABB ACS 310** : [LINK](https://library.e.abb.com/public/0eda39cbd8494c4596d426b81e7884b3/EN_ACS310_UM_D_A4.pdf) 
+
+**Commander SK** : [LINK](https://inverterdrive.com/file/Commander-SK-Advanced-User-Guide)
+
+**Unidrive M200** : [LINK](https://acim.nidec.com/drives/control-techniques/-/media/controltechniques/files/step-by-step-guides/unidrive-m200-control-user-guide.ashx)
+
+
 
 
 
