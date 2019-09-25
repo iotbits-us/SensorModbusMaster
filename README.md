@@ -2,7 +2,7 @@
 
 This library is designed to use an Arduino as a modbus master to communicate with a sensor/slave via [modbus RTU](https://en.wikipedia.org/wiki/Modbus).  It's specifically written with lots of "higher-level" functions to help out users who are largely unfamiliar with the modbus protocol and want an easy way to get information from a modbus device.
 
-*Note: Do not forget to check the ModbusBox examples at the end of this page.* 
+*Note: Check the ModbusBox examples at the end of this page.* 
 
 _____
 
@@ -129,7 +129,7 @@ The following examples   use Serial1 on the ESP32 ,   the following modification
 
 ### ModbusBox  & pyModSlave.
 
-pyModSlave is a free python-based implementation of a ModBus slave application for simulation purposes. You can install the python module or use the precompiled (for Windows only) stand alone GUI (Qt based) utility (unzip and run). pyModSlave also includes a bus monitor for examining all traffic on the bus. You can also download it from pypi [Dowload page](https://sourceforge.net/projects/pymodslave/)
+pyModSlave is a free python-based implementation of a ModBus slave application for simulation purposes. You can install the python module or use the precompiled (for Windows only) stand alone GUI (Qt based) utility (unzip and run). pyModSlave also includes a bus monitor for examining all traffic on the bus.  You can get a copy of the software from this link:  [Dowload page](https://sourceforge.net/projects/pymodslave/)
 
 [PymodSlave sample program](https://github.com/luisgcu/SensorModbusMaster/tree/master/utils/pyModbusDemo)
 
@@ -181,7 +181,9 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 This is a test with only one slave.
 
+![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Single_slave_sdm230.jpg)
 
+Code for the example : [LINK](https://github.com/iotbits-us/SensorModbusMaster/blob/master/utils/SDM230-modbus/SDM230-modbus.ino) 
 
 
 
