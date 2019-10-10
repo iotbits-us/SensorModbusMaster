@@ -165,10 +165,6 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 
 ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/Modbus_network.jpg)
 
-**Serial output:**
-
- ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/RegisterRead.jpg)
-
 **Links to the manual of the slaves in this test:**
 
 **SDM230 Modbus Manual :** [SDM230](http://www.eastrongroup.com/data/uploads/Eastron_SDM230-Modbus_user_manual_V1_4_2015.pdf)
@@ -178,6 +174,10 @@ The following test is composed by 3 VFD  from different  manufactures and one En
 **Commander SK** : [LINK](https://inverterdrive.com/file/Commander-SK-Advanced-User-Guide)
 
 **Unidrive M200** : [LINK](https://acim.nidec.com/drives/control-techniques/-/media/controltechniques/files/step-by-step-guides/unidrive-m200-control-user-guide.ashx)
+
+**Serial output:**
+
+ ![](https://github.com/iotbits-us/SensorModbusMaster/blob/master/images/RegisterRead.jpg)
 
 ------
 
