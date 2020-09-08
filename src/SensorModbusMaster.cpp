@@ -5,9 +5,12 @@
 #include "SensorModbusMaster.h"
 
 // initialize the response buffer
-byte modbusMaster::responseBuffer[RESPONSE_BUFFER_SIZE] = {0x00,};
-byte modbusMaster::crcFrame[2] = {0x00,};
-
+byte modbusMaster::responseBuffer[RESPONSE_BUFFER_SIZE] = {
+    0x00,
+};
+byte modbusMaster::crcFrame[2] = {
+    0x00,
+};
 
 //----------------------------------------------------------------------------
 //                           HIGHEST LEVEL FUNCTIONS
@@ -24,7 +27,8 @@ bool modbusMaster::begin(byte modbusSlaveID, Stream *stream, int enablePin)
     _enablePin = enablePin;
 
     // Set pin mode for the enable pin
-    if (_enablePin > 0) pinMode(_enablePin, OUTPUT);
+    if (_enablePin > 0)
+        pinMode(_enablePin, OUTPUT);
     recieverEnable();
 
     _stream->setTimeout(modbusFrameTimeout);
@@ -32,77 +36,79 @@ bool modbusMaster::begin(byte modbusSlaveID, Stream *stream, int enablePin)
     return true;
 }
 bool modbusMaster::begin(byte modbusSlaveID, Stream &stream, int enablePin)
-{return begin(modbusSlaveID, &stream, enablePin);}
-
+{
+    return begin(modbusSlaveID, &stream, enablePin);
+}
 
 // These functions return a variety of data from a data register
 uint16_t modbusMaster::uint16FromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, UINT16_SIZE/2);
+    getRegisters(regType, regNum, UINT16_SIZE / 2);
     return uint16FromFrame(endian);
 }
 int16_t modbusMaster::int16FromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, INT16_SIZE/2);
+    getRegisters(regType, regNum, INT16_SIZE / 2);
     return int16FromFrame(endian);
 }
 float modbusMaster::float32FromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, FLOAT32_SIZE/2);
+    getRegisters(regType, regNum, FLOAT32_SIZE / 2);
     return float32FromFrame(endian);
 }
 uint32_t modbusMaster::uint32FromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, UINT32_SIZE/2);
+    getRegisters(regType, regNum, UINT32_SIZE / 2);
     return uint32FromFrame(endian);
 }
 int32_t modbusMaster::int32FromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, INT32_SIZE/2);
+    getRegisters(regType, regNum, INT32_SIZE / 2);
     return int32FromFrame(endian);
 }
 uint32_t modbusMaster::TAI64FromRegister(byte regType, int regNum)
 {
-    getRegisters(regType, regNum, TAI64_SIZE/2);
+    getRegisters(regType, regNum, TAI64_SIZE / 2);
     return TAI64FromFrame();
 }
 uint32_t modbusMaster::TAI64NFromRegister(byte regType, int regNum, uint32_t &nanoseconds)
 {
-    getRegisters(regType, regNum, TAI64N_SIZE/2);
+    getRegisters(regType, regNum, TAI64N_SIZE / 2);
     return TAI64NFromFrame(nanoseconds);
 }
 uint32_t modbusMaster::TAI64NAFromRegister(byte regType, int regNum, uint32_t &nanoseconds, uint32_t &attoseconds)
 {
-    getRegisters(regType, regNum, TAI64NA_SIZE/2);
+    getRegisters(regType, regNum, TAI64NA_SIZE / 2);
     return TAI64NAFromFrame(nanoseconds, attoseconds);
 }
 byte modbusMaster::byteFromRegister(byte regType, int regNum, int byteNum)
 {
     getRegisters(regType, regNum, 1);
-    if (byteNum == 1) return byteFromFrame();
-    else return byteFromFrame(4);
+    if (byteNum == 1)
+        return byteFromFrame();
+    else
+        return byteFromFrame(4);
 }
 uint16_t modbusMaster::pointerFromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, POINTER_SIZE/2);
+    getRegisters(regType, regNum, POINTER_SIZE / 2);
     return pointerFromFrame(endian);
 }
 int8_t modbusMaster::pointerTypeFromRegister(byte regType, int regNum, endianness endian)
 {
-    getRegisters(regType, regNum, POINTER_SIZE/2);
+    getRegisters(regType, regNum, POINTER_SIZE / 2);
     return pointerTypeFromFrame(endian);
 }
 String modbusMaster::StringFromRegister(byte regType, int regNum, int charLength)
 {
-    getRegisters(regType, regNum, charLength/2);
+    getRegisters(regType, regNum, charLength / 2);
     return StringFromFrame(charLength);
 }
 void modbusMaster::charFromRegister(byte regType, int regNum, char outChar[], int charLength)
 {
-    getRegisters(regType, regNum, charLength/2);
+    getRegisters(regType, regNum, charLength / 2);
     charFromFrame(outChar, charLength);
 }
-
 
 // These set data in registers to a variety of data types
 // For data types that can be only one register long, the modbus command to pre-set
@@ -110,102 +116,133 @@ void modbusMaster::charFromRegister(byte regType, int regNum, char outChar[], in
 // multiple registers command, set the boolean input for forceMultiple to true.
 bool modbusMaster::uint16ToRegister(int regNum, uint16_t value, endianness endian, bool forceMultiple)
 {
-    byte inputData[UINT16_SIZE] = {0x00,};
+    byte inputData[UINT16_SIZE] = {
+        0x00,
+    };
     uint16ToFrame(value, endian, inputData);
-    return setRegisters(regNum, UINT16_SIZE/2, inputData, forceMultiple);
+    return setRegisters(regNum, UINT16_SIZE / 2, inputData, forceMultiple);
 }
 bool modbusMaster::int16ToRegister(int regNum, int16_t value, endianness endian, bool forceMultiple)
 {
-    byte inputData[INT16_SIZE] = {0x00,};
+    byte inputData[INT16_SIZE] = {
+        0x00,
+    };
     int16ToFrame(value, endian, inputData);
-    return setRegisters(regNum, INT16_SIZE/2, inputData, forceMultiple);
+    return setRegisters(regNum, INT16_SIZE / 2, inputData, forceMultiple);
 }
 bool modbusMaster::float32ToRegister(int regNum, float value, endianness endian)
 {
-    byte inputData[FLOAT32_SIZE] = {0x00,};
+    byte inputData[FLOAT32_SIZE] = {
+        0x00,
+    };
     float32ToFrame(value, endian, inputData);
-    return setRegisters(regNum, FLOAT32_SIZE/2, inputData);
+    return setRegisters(regNum, FLOAT32_SIZE / 2, inputData);
 }
 bool modbusMaster::uint32ToRegister(int regNum, uint32_t value, endianness endian)
 {
-    byte inputData[UINT32_SIZE] = {0x00,};
+    byte inputData[UINT32_SIZE] = {
+        0x00,
+    };
     uint32ToFrame(value, endian, inputData);
-    return setRegisters(regNum, UINT32_SIZE/2, inputData);
+    return setRegisters(regNum, UINT32_SIZE / 2, inputData);
 }
 bool modbusMaster::int32ToRegister(int regNum, int32_t value, endianness endian)
 {
-    byte inputData[INT32_SIZE] = {0x00,};
+    byte inputData[INT32_SIZE] = {
+        0x00,
+    };
     int32ToFrame(value, endian, inputData);
-    return setRegisters(regNum, INT32_SIZE/2, inputData);
+    return setRegisters(regNum, INT32_SIZE / 2, inputData);
 }
 bool modbusMaster::TAI64ToRegister(int regNum, uint32_t seconds)
 {
-    byte inputData[TAI64_SIZE] = {0x00,};
+    byte inputData[TAI64_SIZE] = {
+        0x00,
+    };
     TAI64ToFrame(seconds, inputData);
-    return setRegisters(regNum, TAI64_SIZE/2, inputData);
+    return setRegisters(regNum, TAI64_SIZE / 2, inputData);
 }
 bool modbusMaster::TAI64NToRegister(int regNum, uint32_t seconds, uint32_t nanoseconds)
 {
-    byte inputData[TAI64N_SIZE] = {0x00,};
+    byte inputData[TAI64N_SIZE] = {
+        0x00,
+    };
     TAI64NToFrame(seconds, nanoseconds, inputData);
-    return setRegisters(regNum, TAI64N_SIZE/2, inputData);
+    return setRegisters(regNum, TAI64N_SIZE / 2, inputData);
 }
 bool modbusMaster::TAI64NAToRegister(int regNum, uint32_t seconds, uint32_t nanoseconds, uint32_t attoseconds)
 {
-    byte inputData[TAI64NA_SIZE] = {0x00,};
+    byte inputData[TAI64NA_SIZE] = {
+        0x00,
+    };
     TAI64NAToFrame(seconds, nanoseconds, attoseconds, inputData);
-    return setRegisters(regNum, TAI64NA_SIZE/2, inputData);
+    return setRegisters(regNum, TAI64NA_SIZE / 2, inputData);
 }
 bool modbusMaster::byteToRegister(int regNum, int byteNum, byte value, bool forceMultiple)
 {
-    byte inputData[2] = {0x00,};
+    byte inputData[2] = {
+        0x00,
+    };
     byteToFrame(value, byteNum, inputData);
     return setRegisters(regNum, 1, inputData, forceMultiple);
 }
 bool modbusMaster::pointerToRegister(int regNum, uint16_t value, pointerType point, endianness endian, bool forceMultiple)
 {
-    byte inputData[UINT16_SIZE] = {0x00,};
+    byte inputData[UINT16_SIZE] = {
+        0x00,
+    };
     pointerToFrame(value, point, endian, inputData);
-    return setRegisters(regNum, UINT16_SIZE/2, inputData, forceMultiple);
+    return setRegisters(regNum, UINT16_SIZE / 2, inputData, forceMultiple);
 }
 bool modbusMaster::StringToRegister(int regNum, String value, bool forceMultiple)
 {
     int charLength = value.length();
     byte inputData[charLength];
     StringToFrame(value, inputData);
-    return setRegisters(regNum, charLength/2, inputData, forceMultiple);
+    return setRegisters(regNum, charLength / 2, inputData, forceMultiple);
 }
 bool modbusMaster::charToRegister(int regNum, char inChar[], int charLength, bool forceMultiple)
 {
     byte inputData[charLength];
     charToFrame(inChar, charLength, inputData);
-    return setRegisters(regNum, charLength/2, inputData, forceMultiple);
+    return setRegisters(regNum, charLength / 2, inputData, forceMultiple);
 }
 
 //----------------------------------------------------------------------------
 //                           MID LEVEL FUNCTIONS
 //----------------------------------------------------------------------------
 
-
 // These functions return a variety of data from an input modbus RTU frame.
 // Currently, the only "frame" available is the response buffer.
 uint16_t modbusMaster::uint16FromFrame(endianness endian, int start_index)
-{return leFrameFromFrame(UINT16_SIZE, endian, start_index).uInt16[0];}
+{
+    return leFrameFromFrame(UINT16_SIZE, endian, start_index).uInt16[0];
+}
 
 int16_t modbusMaster::int16FromFrame(endianness endian, int start_index)
-{return leFrameFromFrame(INT16_SIZE, endian, start_index).Int16[0];}
+{
+    return leFrameFromFrame(INT16_SIZE, endian, start_index).Int16[0];
+}
 
 float modbusMaster::float32FromFrame(endianness endian, int start_index)
-{return leFrameFromFrame(FLOAT32_SIZE, endian, start_index).Float32;}
+{
+    return leFrameFromFrame(FLOAT32_SIZE, endian, start_index).Float32;
+}
 
 uint32_t modbusMaster::uint32FromFrame(endianness endian, int start_index)
-{return leFrameFromFrame(UINT32_SIZE, endian, start_index).uInt32;}
+{
+    return leFrameFromFrame(UINT32_SIZE, endian, start_index).uInt32;
+}
 
 int32_t modbusMaster::int32FromFrame(endianness endian, int start_index)
-{return leFrameFromFrame(INT32_SIZE, endian, start_index).Int32;}
+{
+    return leFrameFromFrame(INT32_SIZE, endian, start_index).Int32;
+}
 
 uint32_t modbusMaster::TAI64FromFrame(int start_index)
-{return leFrameFromFrame(4, bigEndian, start_index + 4).uInt32;}
+{
+    return leFrameFromFrame(4, bigEndian, start_index + 4).uInt32;
+}
 uint32_t modbusMaster::TAI64NFromFrame(uint32_t &nanoseconds, int start_index)
 {
     nanoseconds = leFrameFromFrame(4, bigEndian, start_index + 8).uInt32;
@@ -219,19 +256,21 @@ uint32_t modbusMaster::TAI64NAFromFrame(uint32_t &nanoseconds, uint32_t &attosec
 }
 
 byte modbusMaster::byteFromFrame(int start_index)
-{return responseBuffer[start_index];}
+{
+    return responseBuffer[start_index];
+}
 
 uint16_t modbusMaster::pointerFromFrame(endianness endian, int start_index)
 {
     leFrame fram;
     if (endian == bigEndian)
     {
-        fram.Byte[0] = responseBuffer[start_index + 1]>>2;  // Shift the lower address bit DOWN two
+        fram.Byte[0] = responseBuffer[start_index + 1] >> 2; // Shift the lower address bit DOWN two
         fram.Byte[1] = responseBuffer[start_index];
     }
     else
     {
-        fram.Byte[0] = responseBuffer[start_index]>>2;  // Shift the lower address bit DOWN two
+        fram.Byte[0] = responseBuffer[start_index] >> 2; // Shift the lower address bit DOWN two
         fram.Byte[1] = responseBuffer[start_index + 1];
     }
     return fram.Int16[0];
@@ -241,25 +280,29 @@ int8_t modbusMaster::pointerTypeFromFrame(endianness endian, int start_index)
 {
     uint8_t pointerRegType;
     // Mask to get the last two bits, which are the type
-    if (endian == bigEndian) pointerRegType = responseBuffer[start_index + 1] & 3;
-    else pointerRegType = responseBuffer[start_index] & 3;
+    if (endian == bigEndian)
+        pointerRegType = responseBuffer[start_index + 1] & 3;
+    else
+        pointerRegType = responseBuffer[start_index] & 3;
     return pointerRegType;
 }
 
 String modbusMaster::StringFromFrame(int charLength, int start_index)
 {
-    char charString[charLength+1];
+    char charString[charLength + 1];
     int j = 0;
     for (int i = start_index; i < start_index + charLength; i++)
     {
         // check that it's a printable character
         if (responseBuffer[i] >= 0x20 && responseBuffer[i] <= 0x7E)
         {
-            charString[j] = responseBuffer[i];  // converts from "byte" type to "char" type
+            charString[j] = responseBuffer[i]; // converts from "byte" type to "char" type
             j++;
         }
     }
-    if (j < charLength+1) for (int i = j; i < + charLength+1; i++) charString[j] = '\0';
+    if (j < charLength + 1)
+        for (int i = j; i < +charLength + 1; i++)
+            charString[j] = '\0';
     String string = String(charString);
     string.trim();
     return string;
@@ -273,11 +316,13 @@ void modbusMaster::charFromFrame(char outChar[], int charLength, int start_index
         // check that it's a printable character
         if (responseBuffer[i] >= 0x20 && responseBuffer[i] <= 0x7E)
         {
-            outChar[j] = responseBuffer[i];  // converts from "byte" type to "char" type
+            outChar[j] = responseBuffer[i]; // converts from "byte" type to "char" type
             j++;
         }
     }
-    if (j < charLength) for (int i = j; i < + charLength; i++) outChar[j] = '\0';
+    if (j < charLength)
+        for (int i = j; i < +charLength; i++)
+            outChar[j] = '\0';
 }
 
 // These insert values into a longer modbus data frame.
@@ -290,7 +335,8 @@ void modbusMaster::uint16ToFrame(uint16_t value, endianness endian, byte modbusF
     {
         if (endian == bigEndian)
             modbusFrame[end_index - i] = fram.Byte[i];
-        else modbusFrame[start_index + i] = fram.Byte[i];
+        else
+            modbusFrame[start_index + i] = fram.Byte[i];
     }
 }
 void modbusMaster::int16ToFrame(int16_t value, endianness endian, byte modbusFrame[], int start_index)
@@ -302,7 +348,8 @@ void modbusMaster::int16ToFrame(int16_t value, endianness endian, byte modbusFra
     {
         if (endian == bigEndian)
             modbusFrame[end_index - i] = fram.Byte[i];
-        else modbusFrame[start_index + i] = fram.Byte[i];
+        else
+            modbusFrame[start_index + i] = fram.Byte[i];
     }
 }
 void modbusMaster::float32ToFrame(float value, endianness endian, byte modbusFrame[], int start_index)
@@ -314,7 +361,8 @@ void modbusMaster::float32ToFrame(float value, endianness endian, byte modbusFra
     {
         if (endian == bigEndian)
             modbusFrame[end_index - i] = fram.Byte[i];
-        else modbusFrame[start_index + i] = fram.Byte[i];
+        else
+            modbusFrame[start_index + i] = fram.Byte[i];
     }
 }
 void modbusMaster::uint32ToFrame(uint32_t value, endianness endian, byte modbusFrame[], int start_index)
@@ -326,7 +374,8 @@ void modbusMaster::uint32ToFrame(uint32_t value, endianness endian, byte modbusF
     {
         if (endian == bigEndian)
             modbusFrame[end_index - i] = fram.Byte[i];
-        else modbusFrame[start_index + i] = fram.Byte[i];
+        else
+            modbusFrame[start_index + i] = fram.Byte[i];
     }
 }
 void modbusMaster::int32ToFrame(int32_t value, endianness endian, byte modbusFrame[], int start_index)
@@ -338,7 +387,8 @@ void modbusMaster::int32ToFrame(int32_t value, endianness endian, byte modbusFra
     {
         if (endian == bigEndian)
             modbusFrame[end_index - i] = fram.Byte[i];
-        else modbusFrame[start_index + i] = fram.Byte[i];
+        else
+            modbusFrame[start_index + i] = fram.Byte[i];
     }
 }
 void modbusMaster::TAI64ToFrame(uint32_t seconds, byte modbusFrame[], int start_index)
@@ -414,8 +464,10 @@ void modbusMaster::TAI64NAToFrame(uint32_t seconds, uint32_t nanoseconds, uint32
 }
 void modbusMaster::byteToFrame(byte value, int byteNum, byte modbusFrame[], int start_index)
 {
-    if (byteNum == 1) modbusFrame[start_index] = value;
-    else  modbusFrame[start_index+1] = value;
+    if (byteNum == 1)
+        modbusFrame[start_index] = value;
+    else
+        modbusFrame[start_index + 1] = value;
 }
 void modbusMaster::pointerToFrame(uint16_t value, pointerType point, endianness endian, byte modbusFrame[], int start_index)
 {
@@ -423,13 +475,13 @@ void modbusMaster::pointerToFrame(uint16_t value, pointerType point, endianness 
     fram.uInt16[0] = value;
     if (endian == bigEndian)
     {
-        modbusFrame[start_index + 1] = fram.Byte[0]<<2;  // Shift the lower address bit UP two
+        modbusFrame[start_index + 1] = fram.Byte[0] << 2; // Shift the lower address bit UP two
         modbusFrame[start_index + 1] |= point;
         modbusFrame[start_index] = fram.Byte[1];
     }
     else
     {
-        modbusFrame[start_index] = fram.Byte[0]<<2;  // Shift the lower address bit UP two
+        modbusFrame[start_index] = fram.Byte[0] << 2; // Shift the lower address bit UP two
         modbusFrame[start_index] |= point;
         modbusFrame[start_index + 1] = fram.Byte[1];
     }
@@ -442,7 +494,7 @@ void modbusMaster::StringToFrame(String value, byte modbusFrame[], int start_ind
     int j = 0;
     for (int i = 0; i < charLength; i++)
     {
-        modbusFrame[start_index + j] = charString[i];  // converts from "char" type to "byte" type
+        modbusFrame[start_index + j] = charString[i]; // converts from "char" type to "byte" type
         j++;
     }
 }
@@ -451,11 +503,10 @@ void modbusMaster::charToFrame(char inChar[], int charLength, byte modbusFrame[]
     int j = 0;
     for (int i = 0; i < charLength; i++)
     {
-        modbusFrame[start_index + j] = inChar[i];  // converts from "char" type to "byte" type
+        modbusFrame[start_index + j] = inChar[i]; // converts from "char" type to "byte" type
         j++;
     }
 }
-
 
 //----------------------------------------------------------------------------
 //                           LOW LEVEL FUNCTIONS
@@ -474,7 +525,9 @@ bool modbusMaster::getRegisters(byte readCommand, int16_t startRegister, int16_t
     command[1] = readCommand;
 
     // Put in the starting register
-    leFrame fram = {0,};
+    leFrame fram = {
+        0,
+    };
     fram.Int16[0] = startRegister;
     command[2] = fram.Byte[1];
     command[3] = fram.Byte[0];
@@ -490,18 +543,19 @@ bool modbusMaster::getRegisters(byte readCommand, int16_t startRegister, int16_t
     // Try up to 10 times to get the right results
     int tries = 0;
     int16_t respSize = 0;
-    while ((respSize != (numRegisters*2 + 5) && tries < 10))
+    while ((respSize != (numRegisters * 2 + 5) && tries < 10))
     {
         // Send out the command (this adds the CRC)
         respSize = sendCommand(command, 8);
         tries++;
 
-        delay(25);  // was 25
+        delay(25);
     }
 
-    if (respSize == (numRegisters*2 + 5))
+    if (respSize == (numRegisters * 2 + 5))
         return true;
-    else return false;
+    else
+        return false;
 };
 
 // This sets the value of one or more holding registers
@@ -513,19 +567,25 @@ bool modbusMaster::setRegisters(int16_t startRegister, int16_t numRegisters,
 {
     // figure out how long the command will be
     int commandLength;
-    if (numRegisters > 1 or forceMultiple) commandLength = numRegisters*2 + 9;
-    else commandLength = numRegisters*2 + 6;
+    if (numRegisters > 1 or forceMultiple)
+        commandLength = numRegisters * 2 + 9;
+    else
+        commandLength = numRegisters * 2 + 6;
 
     // Create an array for the command
     byte command[commandLength];
 
     // Put in the slave id and the command
     command[0] = _slaveID;
-    if (numRegisters > 1 or forceMultiple) command[1] = 0x10;
-    else command[1] = 0x06;
+    if (numRegisters > 1 or forceMultiple)
+        command[1] = 0x10;
+    else
+        command[1] = 0x06;
 
     // Put in the starting register
-    leFrame fram = {0,};
+    leFrame fram = {
+        0,
+    };
     fram.Int16[0] = startRegister;
     command[2] = fram.Byte[1];
     command[3] = fram.Byte[0];
@@ -539,15 +599,17 @@ bool modbusMaster::setRegisters(int16_t startRegister, int16_t numRegisters,
         command[4] = fram.Byte[3];
         command[5] = fram.Byte[2];
         // Put in the number of bytes to write
-        command[6] = numRegisters*2;
+        command[6] = numRegisters * 2;
         // Put in the data, allowing 7 extra spaces for the modbus frame structure
-        for (int i = 7; i < numRegisters*2 + 7; i++) command[i] = value[i-7];
+        for (int i = 7; i < numRegisters * 2 + 7; i++)
+            command[i] = value[i - 7];
     }
     // For a single register, only need the data itself
     else
     {
         // Put in the data, allowing 4 extra spaces for the modbus frame structure
-        for (int i = 4; i < numRegisters*2 + 4; i++) command[i] = value[i-4];
+        for (int i = 4; i < numRegisters * 2 + 4; i++)
+            command[i] = value[i - 4];
     }
 
     // Try up to 10 times to get the right results
@@ -564,8 +626,7 @@ bool modbusMaster::setRegisters(int16_t startRegister, int16_t numRegisters,
             success = true;
         // The structure of the response for 0x06 should be:
         // {slaveID, fxnCode, Address of 1st register, Value written, CRC}
-        if (numRegisters == 1 && respSize == 8 && responseBuffer[4] == value[0]
-            && responseBuffer[5] == value[1])
+        if (numRegisters == 1 && respSize == 8 && responseBuffer[4] == value[0] && responseBuffer[5] == value[1])
             success = true;
         tries++;
 
@@ -574,7 +635,6 @@ bool modbusMaster::setRegisters(int16_t startRegister, int16_t numRegisters,
 
     return success;
 };
-
 
 //----------------------------------------------------------------------------
 //                           LOWEST LEVEL FUNCTION
@@ -592,24 +652,30 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
 
     // Send out the command
     driverEnable();
-    emptySerialBuffer(_stream);  // Clear any junk before sending command
+    emptySerialBuffer(_stream); // Clear any junk before sending command
     _stream->write(command, commandLength);
     _stream->flush();
-	//Serial1.flush();   //may addd
+
     // Print the raw send (for debugging)
     _debugStream->print("Raw Request >>> ");
     printFrameHex(command, commandLength);
-     delay(2);  // call this delay before receive enable so the ESP32 works ok 
+
+    /* Wait 2(ms) before enabling the receiver
+     * This fixes the timming problem with the ESP32
+     * Credits goes to https://github.com/luisgcu
+     */
+    delay(2);
+
     // Listen for a response
     recieverEnable();
     uint32_t start = millis();
     while (_stream->available() == 0 && millis() - start < modbusTimeout)
-    { delay(1);}     //was 1
-
+    {
+        delay(1);
+    }
 
     if (_stream->available() > 0)
     {
-		isError = false;
         // Read the incoming bytes
         int bytesRead = _stream->readBytes(responseBuffer, 135);
         emptySerialBuffer(_stream);
@@ -629,7 +695,7 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
 
         // Verify that the CRC is correct
         calculateCRC(responseBuffer, bytesRead);
-        if (crcFrame[0] != responseBuffer[bytesRead-2] || crcFrame[1] != responseBuffer[bytesRead-1])
+        if (crcFrame[0] != responseBuffer[bytesRead - 2] || crcFrame[1] != responseBuffer[bytesRead - 1])
         {
             _debugStream->println("CRC of response is not correct!");
             return 0;
@@ -637,19 +703,29 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
 
         // Check for exception response
         // An execption response sets the highest bit of the function code in the response.
-        if ((responseBuffer[1] & 0b10000000) ==  0b10000000)
+        if ((responseBuffer[1] & 0b10000000) == 0b10000000)
         {
             _debugStream->print("Exception:  ");
-            if (responseBuffer[2] == 0x01)_debugStream->println("Illegal Function!");
-            if (responseBuffer[2] == 0x02)_debugStream->println("Illegal Data Address!");
-            if (responseBuffer[2] == 0x03)_debugStream->println("Illegal Data Value!");
-            if (responseBuffer[2] == 0x04)_debugStream->println("Slave Device Failure!");
-            if (responseBuffer[2] == 0x05)_debugStream->println("Acknowledge...");
-            if (responseBuffer[2] == 0x06)_debugStream->println("Slave Device Busy!");
-            if (responseBuffer[2] == 0x07)_debugStream->println("Negative Acknowledge!");
-            if (responseBuffer[2] == 0x08)_debugStream->println("Memory Parity Error!");
-            if (responseBuffer[2] == 0x0A)_debugStream->println("Gateway Path Unavailable!");
-            if (responseBuffer[2] == 0x0B)_debugStream->println("Gateway Target Device Failed to Respond!");
+            if (responseBuffer[2] == 0x01)
+                _debugStream->println("Illegal Function!");
+            if (responseBuffer[2] == 0x02)
+                _debugStream->println("Illegal Data Address!");
+            if (responseBuffer[2] == 0x03)
+                _debugStream->println("Illegal Data Value!");
+            if (responseBuffer[2] == 0x04)
+                _debugStream->println("Slave Device Failure!");
+            if (responseBuffer[2] == 0x05)
+                _debugStream->println("Acknowledge...");
+            if (responseBuffer[2] == 0x06)
+                _debugStream->println("Slave Device Busy!");
+            if (responseBuffer[2] == 0x07)
+                _debugStream->println("Negative Acknowledge!");
+            if (responseBuffer[2] == 0x08)
+                _debugStream->println("Memory Parity Error!");
+            if (responseBuffer[2] == 0x0A)
+                _debugStream->println("Gateway Path Unavailable!");
+            if (responseBuffer[2] == 0x0B)
+                _debugStream->println("Gateway Target Device Failed to Respond!");
             return 0;
         }
 
@@ -659,13 +735,9 @@ int modbusMaster::sendCommand(byte command[], int commandLength)
     else
     {
         _debugStream->println("No response received.");
-		//Serial.println("timeOut");               //added by me on 08/2018
-		isError = true;
         return 0;
     }
 }
-
-
 
 //----------------------------------------------------------------------------
 //                           PRIVATE HELPER FUNCTIONS
@@ -678,7 +750,7 @@ void modbusMaster::driverEnable(void)
     {
         digitalWrite(_enablePin, HIGH);
         _debugStream->println("Driver/Master Enabled");
-        delay(5); // was 8
+        delay(8);
     }
 }
 
@@ -689,7 +761,7 @@ void modbusMaster::recieverEnable(void)
     {
         digitalWrite(_enablePin, LOW);
         _debugStream->println("Receiver/Slave Enabled");
-        delay(5); // was 8
+        delay(8);
     }
 }
 
@@ -699,7 +771,7 @@ void modbusMaster::emptySerialBuffer(Stream *stream)
     while (stream->available() > 0)
     {
         stream->read();
-        delay(1);  //was 1
+        delay(1);
     }
 }
 
@@ -711,13 +783,14 @@ void modbusMaster::printFrameHex(byte modbusFrame[], int frameLength)
     for (int i = 0; i < frameLength; i++)
     {
         _debugStream->print("0x");
-        if (modbusFrame[i] < 16) _debugStream->print("0");
+        if (modbusFrame[i] < 16)
+            _debugStream->print("0");
         _debugStream->print(modbusFrame[i], HEX);
-        if (i < frameLength - 1) _debugStream->print(", ");
+        if (i < frameLength - 1)
+            _debugStream->print(", ");
     }
     _debugStream->println("}");
 }
-
 
 // Calculates a Modbus RTC cyclical redudancy code (CRC)
 // and adds it to the last two bytes of a frame
@@ -733,15 +806,17 @@ void modbusMaster::calculateCRC(byte modbusFrame[], int frameLength)
     uint16_t crc = 0xFFFF;
     for (int pos = 0; pos < frameLength - 2; pos++)
     {
-        crc ^= (unsigned int)modbusFrame[pos];  // XOR byte into least sig. byte of crc
+        crc ^= (unsigned int)modbusFrame[pos]; // XOR byte into least sig. byte of crc
 
-        for (int i = 8; i != 0; i--) {    // Loop over each bit
-            if ((crc & 0x0001) != 0) {    // If the least significant bit (LSB) is set
-                crc >>= 1;                // Shift right and XOR 0xA001
+        for (int i = 8; i != 0; i--)
+        { // Loop over each bit
+            if ((crc & 0x0001) != 0)
+            {              // If the least significant bit (LSB) is set
+                crc >>= 1; // Shift right and XOR 0xA001
                 crc ^= 0xA001;
             }
-            else                          // Else least significant bit (LSB) is not set
-            crc >>= 1;                    // Just shift right
+            else           // Else least significant bit (LSB) is not set
+                crc >>= 1; // Just shift right
         }
     }
 
@@ -766,7 +841,7 @@ void modbusMaster::insertCRC(byte modbusFrame[], int frameLength)
 // This slices one array out of another
 // Used for slicing one or more registers out of a returned modbus RTU frame
 void modbusMaster::sliceArray(byte inputArray[], byte outputArray[],
-                int start_index, int numBytes, bool reverseOrder)
+                              int start_index, int numBytes, bool reverseOrder)
 {
 
     if (reverseOrder)
@@ -778,7 +853,6 @@ void modbusMaster::sliceArray(byte inputArray[], byte outputArray[],
             outputArray[i] = inputArray[start_index + j];
             j--;
         }
-
     }
     else
     {
@@ -787,22 +861,24 @@ void modbusMaster::sliceArray(byte inputArray[], byte outputArray[],
     }
 }
 
-
 // This converts data in a modbus RTU frame into a little-endian data frame
 // little-endian data frames are needed because all Arduino processors are little-endian
 leFrame modbusMaster::leFrameFromFrame(int varBytes,
-                                  endianness endian,
-                                  int start_index)
+                                       endianness endian,
+                                       int start_index)
 {
     // Set up a temporary output frame
     byte outFrame[varBytes];
     // Slice data from the full response frame into the temporary output frame
     if (endian == bigEndian)
         sliceArray(responseBuffer, outFrame, start_index, varBytes, true);
-    else sliceArray(responseBuffer, outFrame, start_index, varBytes, false);
+    else
+        sliceArray(responseBuffer, outFrame, start_index, varBytes, false);
     // Put it into a little-endian frame (the format of all arduino processors)
-    leFrame fram = {0,};
+    leFrame fram = {
+        0,
+    };
     memcpy(fram.Byte, outFrame, varBytes);
     // Return the little-endian frame
     return fram;
-} //
+}
